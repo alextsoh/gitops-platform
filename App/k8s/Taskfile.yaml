@@ -1,7 +1,7 @@
 version: '3'
 
 tasks:
-  1.setup-cnpg:
+  1.setup:
     desc: "Install CloudNativePG operator"
     cmds:
       - helm repo add cnpg https://cloudnative-pg.github.io/charts
@@ -13,13 +13,14 @@ tasks:
     cmds:
       - kubectl create namespace postgres --dry-run=client -o yaml | kubectl apply -f -
       - kubectl create namespace my-app --dry-run=client -o yaml | kubectl apply -f -
+      - kubectl apply -f cnpg/secret.yaml
       - kubectl apply -f cnpg/postgres-cluster.yaml
       - sleep 30
       - kubectl apply -f cnpg/migrator.yaml
       - kubectl apply -f api-node/
       - kubectl apply -f client-react/
   
-  3.tilt-up:
+  3.tilt:
     desc: "Start Tilt for local development"
     cmds:
       - cd .. && tilt up  
