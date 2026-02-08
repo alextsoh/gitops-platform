@@ -41,3 +41,7 @@ jobs:
         run: |
           # Same logic as before
           echo "image_tag=v$(date +%s)" >> $GITHUB_OUTPUT
+      - name: Show Image Tag
+        run: |
+          echo "Generated image tag: ${{ steps.generate-image-tag.outputs.image_tag }}"
+          echo "image_tag=${{ steps.generate-image-tag.outputs.image_tag }}" >> $GITHUB_STEP_SUMMARY
