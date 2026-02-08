@@ -21,7 +21,6 @@ jobs:
       - uses: dorny/paths-filter@v3
         id: filter
         with:
-          base: ${{ github.ref_name }}
           filters: |
             api-node: 'App/api-node/**'
             client-react: 'App/client-react/**'
