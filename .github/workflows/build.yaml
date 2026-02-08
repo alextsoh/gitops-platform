@@ -1,20 +1,20 @@
 name: Build and Push Workflow
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
-    inputs:
-      service:
-        description: "Service to build"
-        required: true
-        type: choice
-        options:
-          - api-node
-          - client-react
-          - all
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
+  # workflow_dispatch:
+  #   inputs:
+  #     service:
+  #       description: "Service to build"
+  #       required: true
+  #       type: choice
+  #       options:
+  #         - api-node
+  #         - client-react
+  #         - all
 
 permissions:
   contents: read

@@ -1,11 +1,7 @@
 name: Test Workflow
 
 on:
-  workflow_dispatch:
-  workflow_call:
-  pull_request:
-    branches:
-      - main
+  
 
 
 jobs:

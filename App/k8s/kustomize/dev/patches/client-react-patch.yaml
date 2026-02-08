@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-react-nginx
+  namespace: my-app
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: client-react-nginx
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
