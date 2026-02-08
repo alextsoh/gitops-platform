@@ -5,16 +5,6 @@ on:
     branches: [main]
     paths: ['App/api-node/**','App/client-react/**']
   workflow_dispatch:
-    inputs:
-      service:
-        description: 'Optional: specific service to build'
-        required: false
-        type: choice
-        options:
-          - all
-          - api-node
-          - client-react
-          - postgresql
 
 jobs:
   # STEP 1: Detect which folders actually changed
@@ -35,15 +25,4 @@ jobs:
             api-node: 'App/api-node/**'
             client-react: 'App/client-react/**'
             postgresql: 'App/postgresql/**'
-
-  test-job:
-    needs: detect-changes
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Show detected changes
-        run: |
-          echo "api-node changed: ${{ needs.detect-changes.outputs.api-node }}"
-          echo "client-react changed: ${{ needs.detect-changes.outputs.client-react }}"
-          echo "postgresql changed: ${{ needs.detect-changes.outputs.postgresql }}"
-          echo "Workflow triggered by: ${{ github.event_name }}"
+            
