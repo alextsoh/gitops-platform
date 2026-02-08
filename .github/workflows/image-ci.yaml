@@ -5,6 +5,16 @@ on:
     branches: [main]
     paths: ['App/api-node/**','App/client-react/**']
   workflow_dispatch:
+    inputs:
+      service:
+        description: 'Optional: specific service to build'
+        required: false
+        type: choice
+        options:
+          - all
+          - api-node
+          - client-react
+          - postgresql
 
 jobs:
   # STEP 1: Detect which folders actually changed
