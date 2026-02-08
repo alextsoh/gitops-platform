@@ -25,3 +25,19 @@ jobs:
             api-node: 'App/api-node/**'
             client-react: 'App/client-react/**'
             postgresql: 'App/postgresql/**'
+  
+  generate-image-tag:
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.generate-image-tag.outputs.image_tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate Image Tag
+        id: generate-image-tag
+        run: |
+          # Same logic as before
+          echo "image_tag=v$(date +%s)" >> $GITHUB_OUTPUT
