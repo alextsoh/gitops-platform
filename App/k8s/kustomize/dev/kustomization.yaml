@@ -13,7 +13,7 @@ images:
   newTag: 1.0.0-25-g996f02f
 - name: client-react-placeholder
   newName: alextsoh/client-react
-  newTag: 1.0.0-25-g996f02f
+  newTag: 1.0.0-28-g0f315a3
 
 patches:
 - path: patches/cnpg-patch.yaml
