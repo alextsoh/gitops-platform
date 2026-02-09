@@ -6,6 +6,13 @@ namePrefix: dev-
 labels:
   - pairs:
       environment: dev
+images:
+  - name: api-node-placeholder       # Matches the image name in your base Deployment
+    newName: alextsoh/api-node       # Your registry path
+    newTag: initial                  # CI will overwrite this line automatically
+  - name: client-react-placeholder
+    newName: alextsoh/client-react
+    newTag: initial
 patches:
   - path: patches/api-node-patch.yaml
   - path: patches/client-react-patch.yaml
