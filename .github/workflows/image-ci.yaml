@@ -38,9 +38,7 @@ jobs:
           fetch-depth: 0
       - name: Generate Image Tag
         id: generate-image-tag
-        run: |
-          # Same logic as before
-          echo "image_tag=v$(date +%s)" >> $GITHUB_OUTPUT
+        run: echo "image_tag=$(git describe --tags --always --first-parent --match "[0-9]*.[0-9]*.[0-9]*")" >> $GITHUB_OUTPUT
       - name: Show Image Tag
         run: |
           echo "Generated image tag: ${{ steps.generate-image-tag.outputs.image_tag }}"
