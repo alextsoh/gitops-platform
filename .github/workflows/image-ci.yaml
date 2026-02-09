@@ -9,7 +9,7 @@ on:
 jobs:
   # STEP 1: Detect which folders actually changed
   detect-changes:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     outputs:
       # This mapping tells the next jobs which services to run
       api-node: ${{ steps.filter.outputs.api-node }}
@@ -27,7 +27,7 @@ jobs:
   
   generate-image-tag:
     needs: detect-changes
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     outputs:
       image_tag: ${{ steps.generate-image-tag.outputs.image_tag }}
     steps:
@@ -46,7 +46,7 @@ jobs:
 
   build-and-push:
     needs: [detect-changes, generate-image-tag]
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     strategy:
       matrix:
         include:
@@ -83,7 +83,7 @@ jobs:
 
   update-manifests:
     needs: [detect-changes, generate-image-tag, build-and-push]
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     if: ${{ needs.detect-changes.outputs.api-node == 'true' || needs.detect-changes.outputs.client-react == 'true' }}
     
     steps:
