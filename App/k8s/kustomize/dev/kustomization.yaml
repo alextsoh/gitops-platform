@@ -1,18 +1,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../base
+- ../base
 namePrefix: dev-
 labels:
-  - pairs:
-      environment: dev
+- pairs:
+    environment: dev
 images:
-  - name: api-node-placeholder       # Matches the image name in your base Deployment
-    newName: alextsoh/api-node       # Your registry path
-    newTag: 1.0.0                    # ArgoCD Image Updater will update this
-  - name: client-react-placeholder
-    newName: alextsoh/client-react
-    newTag: 1.0.0                    # ArgoCD Image Updater will update this
+- name: api-node-placeholder
+  newName: alextsoh/api-node
+  newTag: 1.0.0
+- name: client-react-placeholder
+  newName: alextsoh/client-react
+  newTag: 1.0.0-12-gff5ef7d
 patches:
-  - path: patches/api-node-patch.yaml
-  - path: patches/client-react-patch.yaml
+- path: patches/api-node-patch.yaml
+- path: patches/client-react-patch.yaml
