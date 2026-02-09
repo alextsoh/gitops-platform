@@ -6,6 +6,7 @@ namePrefix: dev-
 labels:
 - pairs:
     environment: dev
+
 images:
 - name: api-node-placeholder
   newName: alextsoh/api-node
@@ -13,6 +14,8 @@ images:
 - name: client-react-placeholder
   newName: alextsoh/client-react
   newTag: 1.0.0-23-g486d285
+
 patches:
 - path: patches/api-node-patch.yaml
 - path: patches/client-react-patch.yaml
+ 
