@@ -9,7 +9,7 @@ labels:
 images:
 - name: api-node-placeholder
   newName: alextsoh/api-node
-  newTag: 1.0.0
+  newTag: latest
 - name: client-react-placeholder
   newName: alextsoh/client-react
   newTag: 1.0.0-12-gff5ef7d
