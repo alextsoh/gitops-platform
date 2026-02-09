@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       # This mapping tells the next jobs which services to run
-      api-golang: ${{ steps.filter.outputs.api-golang }}
       api-node: ${{ steps.filter.outputs.api-node }}
       client-react: ${{ steps.filter.outputs.client-react }}
       postgresql: ${{ steps.filter.outputs.postgresql }}
