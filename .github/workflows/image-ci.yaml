@@ -100,7 +100,7 @@ jobs:
 
       - name: Update Image Tags
         run: |
-          cd k8s/kustomize/dev
+          cd App/k8s/kustomize/dev
           
           # We ONLY update the specific image names defined in your kustomization
           TAG=${{ needs.generate-image-tag.outputs.image_tag }}
