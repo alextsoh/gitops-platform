@@ -59,7 +59,7 @@ jobs:
             should_run: ${{ needs.detect-changes.outputs.client-react }}
     
     # Only run the matrix item if the folder actually changed!
-    if: matrix.should_run == 'true'
+    if: ${{ matrix.should_run == 'true' }}
 
     steps:
       - name: Checkout
