@@ -16,7 +16,7 @@ spec:
         app: client-react-nginx
     spec:
       containers:
-        - image: alextsoh/client-react:multiplatform
+        - image: client-react-placeholder
           imagePullPolicy: Always
           name: client-react-nginx
           ports:
