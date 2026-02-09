@@ -53,9 +53,11 @@ jobs:
         include:
           - name: api-node
             path: App/api-node
+            dockerfile: Dockerfile
             should_run: ${{ needs.detect-changes.outputs.api-node }}
           - name: client-react
             path: App/client-react
+            dockerfile: Dockerfile.nginx
             should_run: ${{ needs.detect-changes.outputs.client-react }}
     
  
@@ -77,6 +79,7 @@ jobs:
         if: matrix.should_run == 'true'
         with:
           context: ${{ matrix.path }}
+          file: ${{ matrix.path }}/${{ matrix.dockerfile }}
           push: true
           # This uses the tag you generated in the previous job
           tags: alextsoh/${{ matrix.name }}:${{ needs.generate-image-tag.outputs.image_tag }}
