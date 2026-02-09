@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: db-migrate
-  namespace: postgres
 spec:
   template:
     spec:
@@ -16,6 +15,5 @@ spec:
           - up
         env:
         - name: DATABASE_URL
-        
           value: "postgres://postgres:safepassword@cnpg-db-rw.postgres.svc.cluster.local:5432/postgres?sslmode=disable"
       restartPolicy: OnFailure

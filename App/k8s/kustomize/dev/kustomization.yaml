@@ -16,5 +16,6 @@ images:
   newTag: 1.0.0-25-g996f02f
 
 patches:
+- path: patches/cnpg-patch.yaml
 - path: patches/api-node-patch.yaml
 - path: patches/client-react-patch.yaml

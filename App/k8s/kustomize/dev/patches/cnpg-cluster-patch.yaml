@@ -1,0 +1,8 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-db
+  namespace: postgres
+  annotations:
+    kustomize.config.k8s.io/behavior: merge
+    argocd.argoproj.io/sync-wave: "-1"
