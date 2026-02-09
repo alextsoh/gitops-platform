@@ -12,7 +12,7 @@ images:
   newTag: latest
 - name: client-react-placeholder
   newName: alextsoh/client-react
-  newTag: 1.0.0-19-g8cbdce3
+  newTag: 1.0.0-21-g243bc78
 patches:
 - path: patches/api-node-patch.yaml
 - path: patches/client-react-patch.yaml
