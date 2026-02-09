@@ -9,10 +9,10 @@ labels:
 images:
   - name: api-node-placeholder       # Matches the image name in your base Deployment
     newName: alextsoh/api-node       # Your registry path
-    newTag: initial                  # CI will overwrite this line automatically
+    newTag: 1.0.0                    # ArgoCD Image Updater will update this
   - name: client-react-placeholder
     newName: alextsoh/client-react
-    newTag: initial
+    newTag: 1.0.0                    # ArgoCD Image Updater will update this
 patches:
   - path: patches/api-node-patch.yaml
   - path: patches/client-react-patch.yaml

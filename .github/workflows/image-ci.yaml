@@ -81,7 +81,6 @@ jobs:
           push: true
           # This uses the tag you generated in the previous job
           tags: alextsoh/${{ matrix.name }}:${{ needs.generate-image-tag.outputs.image_tag }}
-    
 
   update-manifests:
     needs: [detect-changes, generate-image-tag, build-and-push]
@@ -92,7 +91,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # This is critical for pushing back to the repo
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Kustomize
@@ -102,7 +100,6 @@ jobs:
         run: |
           cd App/k8s/kustomize/dev
           
-          # We ONLY update the specific image names defined in your kustomization
           TAG=${{ needs.generate-image-tag.outputs.image_tag }}
           
           if [ "${{ needs.detect-changes.outputs.api-node }}" == "true" ]; then
@@ -112,3 +109,14 @@ jobs:
           if [ "${{ needs.detect-changes.outputs.client-react }}" == "true" ]; then
             kustomize edit set image client-react-placeholder=alextsoh/client-react:$TAG
           fi
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "ci: update image tags to ${{ needs.generate-image-tag.outputs.image_tag }}"
+          branch: update-images/${{ needs.generate-image-tag.outputs.image_tag }}
+          title: "ci: update image tags to ${{ needs.generate-image-tag.outputs.image_tag }}"
+          body: |
+            Automated image tag update
+            - New image tag: `${{ needs.generate-image-tag.outputs.image_tag }}`
+          token: ${{ secrets.GITHUB_TOKEN }}
