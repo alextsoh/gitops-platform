@@ -59,8 +59,6 @@ jobs:
             path: App/client-react
             dockerfile: Dockerfile.nginx
             should_run: ${{ needs.detect-changes.outputs.client-react }}
-    
- 
 
     steps:
       - name: Checkout
@@ -83,3 +81,34 @@ jobs:
           push: true
           # This uses the tag you generated in the previous job
           tags: alextsoh/${{ matrix.name }}:${{ needs.generate-image-tag.outputs.image_tag }}
+    
+
+  update-manifests:
+    needs: [detect-changes, generate-image-tag, build-and-push]
+    runs-on: ubuntu-latest
+    if: ${{ needs.detect-changes.outputs.api-node == 'true' || needs.detect-changes.outputs.client-react == 'true' }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # This is critical for pushing back to the repo
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Update Image Tags
+        run: |
+          cd k8s/kustomize/dev
+          
+          # We ONLY update the specific image names defined in your kustomization
+          TAG=${{ needs.generate-image-tag.outputs.image_tag }}
+          
+          if [ "${{ needs.detect-changes.outputs.api-node }}" == "true" ]; then
+            kustomize edit set image api-node-placeholder=alextsoh/api-node:$TAG
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.client-react }}" == "true" ]; then
+            kustomize edit set image client-react-placeholder=alextsoh/client-react:$TAG
+          fi
