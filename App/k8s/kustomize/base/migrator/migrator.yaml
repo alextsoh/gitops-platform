@@ -15,7 +15,4 @@ spec:
           - -path=/app/migrations
           - -database=$(DATABASE_URL)
           - up
-        env:
-        - name: DATABASE_URL
-          value: "postgres://postgres:safepassword@dev-cnpg-db-rw.postgres.svc.cluster.local:5432/postgres?sslmode=disable"
       restartPolicy: OnFailure
