@@ -22,7 +22,7 @@ resource "azurerm_resource_group" "aks_rg" {
 # 2. Network (Required for Azure CNI Overlay)
 resource "azurerm_virtual_network" "vnet" {
   name                = "aks-vnet"
-  address_space       = ["10.0.0.0/16"]
+  address_space       = ["10.244.0.0/16"]
   location            = azurerm_resource_group.aks_rg.location
   resource_group_name = azurerm_resource_group.aks_rg.name
 }
@@ -31,7 +31,7 @@ resource "azurerm_subnet" "nodes" {
   name                 = "aks-subnet"
   resource_group_name  = azurerm_resource_group.aks_rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = ["10.244.0.0/24"]
 }
 
 # 3. AKS Cluster
@@ -67,11 +67,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
     network_plugin      = "azure"
     network_plugin_mode = "overlay"
     network_policy      = "cilium"
-    network_data_plane  = "cilium" # Correct argument name
+    network_data_plane  = "cilium" 
     load_balancer_sku   = "standard"
 
-    service_cidr   = "172.16.0.0/16"
-    dns_service_ip = "172.16.0.10"
+    service_cidr   = "10.0.0.0/16"
+    dns_service_ip = "10.0.0.10"
+
+    pod_cidr = "10.2.0.0/16"
   }
 
   # Advanced Features
