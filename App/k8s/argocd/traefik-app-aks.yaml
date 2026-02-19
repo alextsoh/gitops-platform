@@ -12,7 +12,7 @@ spec:
       helm:
         valueFiles:
           - $values/App/k8s/traefik/values.yaml
-    - repoURL: https://github.com/alextsoh/node-react-test
+    - repoURL: https://github.com/alextsoh/node-react
       targetRevision: main
       ref: values
   destination:
