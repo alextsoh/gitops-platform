@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: db-migrate
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   template:
     spec:

@@ -7,5 +7,7 @@ metadata:
     kustomize.config.k8s.io/behavior: merge
     argocd.argoproj.io/sync-wave: "-1"
 spec:
+  storage:
+    storageClass: managed-csi
   superuserSecret:
     name: prod-pg-superuser-auth
