@@ -5,6 +5,8 @@ metadata:
   namespace: my-app
   labels:
     app: api-node
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   replicas: 1
   selector:

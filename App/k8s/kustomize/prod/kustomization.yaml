@@ -1,12 +1,25 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../base
+- ../base
+- gateway.yaml
+- httproute.yaml
 namePrefix: prod-
 labels:
-  - pairs:
-      environment: prod
-namespace: prod-app
+- pairs:
+    environment: prod
+
+images:
+- name: api-node-placeholder
+  newName: alextsoh/api-node
+  newTag: 1.0.0-25-g996f02f
+- name: client-react-placeholder
+  newName: alextsoh/client-react
+  newTag: 1.0.0-18-g4949c2b
+
 patches:
-  - path: patches/api-node-patch.yaml
-  - path: patches/client-react-patch.yaml
+- path: patches/cnpg-cluster-patch.yaml
+- path: patches/migrator-patch.yaml
+- path: patches/api-node-patch.yaml
+- path: patches/api-node-secret-patch.yaml
+- path: patches/client-react-patch.yaml

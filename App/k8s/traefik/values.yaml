@@ -1,0 +1,29 @@
+# Traefik Helm Chart Values for Gateway API
+
+# Service configuration
+service:
+  type: LoadBalancer  # Default for production (AKS)
+
+# Port configuration
+ports:
+  web:
+    port: 80
+    exposedPort: 80
+    protocol: TCP
+
+# Enable Gateway API provider (REQUIRED for Gateway/HTTPRoute)
+providers:
+  kubernetesGateway:
+    enabled: true
+
+# Disable built-in Gateway creation (Gateway managed in kustomize )
+gateway:
+  enabled: false
+
+# Dashboard access (optional)
+ingressRoute:
+  dashboard:
+    enabled: true
+    matchRule: Host(`dashboard.localhost`)
+    entryPoints:
+      - web

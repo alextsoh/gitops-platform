@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/alextsoh/node-react
     targetRevision: main
-    path: App/k8s/kustomize/dev
+    path: App/k8s/kustomize/prod
   destination:
     server: https://kubernetes.default.svc
     namespace: default

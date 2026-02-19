@@ -8,4 +8,4 @@ metadata:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
   superuserSecret:
-    name: dev-pg-superuser-auth
+    name: prod-pg-superuser-auth

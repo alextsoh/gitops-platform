@@ -2,8 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-node
-  namespace: prod-app
+  namespace: my-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
+  selector:
+    matchLabels:
+      app: api-node
   replicas: 1
   template:
     spec:
@@ -11,8 +16,8 @@ spec:
       - name: api-node
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: "128Mi"
+            cpu: "100m"
           limits:
-            memory: "1Gi"
-            cpu: "1000m"
+            memory: "256Mi"
+            cpu: "200m"
