@@ -4,6 +4,8 @@ kind: HTTPRoute
 metadata:
   name: app-route
   namespace: my-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   parentRefs:
     - name: dev-app-gateway

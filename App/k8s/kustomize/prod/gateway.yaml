@@ -4,6 +4,8 @@ kind: Gateway
 metadata:
   name: app-gateway
   namespace: my-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   gatewayClassName: traefik
   listeners:
