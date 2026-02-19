@@ -77,7 +77,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   image_cleaner_enabled     = true
 
   # Upgrade Settings
-  automatic_upgrade_channel = "none"
+  automatic_upgrade_channel = "node-image"
   node_os_upgrade_channel   = "NodeImage"
 
   # Key Vault Secrets Provider
@@ -85,8 +85,4 @@ resource "azurerm_kubernetes_cluster" "aks" {
     secret_rotation_enabled = true # Automatically syncs secret changes
   }
 
-  # Defender for Cloud
-  microsoft_defender {
-    log_analytics_workspace_id = null
-  }
 }
