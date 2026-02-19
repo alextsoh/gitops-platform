@@ -9,4 +9,4 @@ spec:
   template:
     spec:
       containers:
-        - name: db-migrate
+        - name: migrator
