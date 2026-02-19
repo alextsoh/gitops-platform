@@ -74,7 +74,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   # Advanced Features
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
-  image_cleaner_enabled     = true
 
   # Upgrade Settings
   automatic_upgrade_channel = "node-image"
