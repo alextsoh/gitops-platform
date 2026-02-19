@@ -69,6 +69,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
     network_policy      = "cilium"
     network_data_plane  = "cilium" # Correct argument name
     load_balancer_sku   = "standard"
+
+    service_cidr   = "172.16.0.0/16"
+    dns_service_ip = "172.16.0.10"
   }
 
   # Advanced Features
