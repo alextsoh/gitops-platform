@@ -1,4 +1,4 @@
-name: Azure OIDC Deploy
+name: tf-aks-apply-oidc
 
 on:
   workflow_dispatch:
@@ -49,7 +49,7 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform plan -input=false -out=tfplan
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform apply -input=false -auto-approve tfplan
+      # - name: Terraform Apply
+      #   if: github.ref == 'refs/heads/main'
+      #   working-directory: ${{ env.TF_WORKING_DIR }}
+      #   run: terraform apply -input=false -auto-approve tfplan

@@ -1,4 +1,4 @@
-name: Azure OIDC Destroy
+name: tf-aks-destroy-oidc
 
 on:
   workflow_dispatch:
