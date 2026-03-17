@@ -49,10 +49,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   identity { type = "SystemAssigned" }
   local_account_disabled = false
 
-  # Node Auto-provisioning (NAP) - Fixed for Terraform
-  node_provisioning_profile {
-    mode = "Auto"
-  }
 
   default_node_pool {
     name           = "nodepool1"
@@ -60,7 +56,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
     vm_size        = "Standard_D2ps_v6" # ARM64
     vnet_subnet_id = azurerm_subnet.nodes.id
     zones = null
-  }
+  auto_scaling_enabled = false 
+   }
 
   # Networking: CNI Overlay + Cilium
   network_profile {
