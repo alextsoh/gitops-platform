@@ -7,6 +7,9 @@ resources:
 
 namePrefix: prod-
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 configMapGenerator:
 - name: nginx-conf
   files:
