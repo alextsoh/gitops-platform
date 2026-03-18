@@ -56,4 +56,4 @@ const insertRequest = async () => {
 };
 
 module.exports = { getDateTime, insertRequest };
-// For testing purpose
+// For testing purposes

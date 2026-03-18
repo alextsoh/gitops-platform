@@ -8,6 +8,12 @@ namePrefix: dev-
 labels:
 - pairs:
     environment: dev
+
+configMapGenerator:
+- name: nginx-conf
+  files:
+    - default.conf=nginx.conf
+    
 images:
 - name: api-node-placeholder
   newName: alextsoh/api-node
