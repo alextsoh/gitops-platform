@@ -4,15 +4,17 @@ resources:
 - ../base
 - gateway.yaml
 - httproute.yaml
+
 namePrefix: dev-
+
+configMapGenerator:
+- name: nginx-conf
+  files:
+    - default.conf=nginx.conf
+
 labels:
 - pairs:
     environment: dev
-
-configMapGenerator:
-- files:
-  - default.conf=nginx.conf
-  name: nginx-conf
     
 images:
 - name: api-node-placeholder
