@@ -11,10 +11,10 @@ labels:
 images:
 - name: api-node-placeholder
   newName: alextsoh/api-node
-  newTag: 1.0.0-48-gcfa5c84
+  newTag: 1.0.0-51-g7cdbe91
 - name: client-react-placeholder
   newName: alextsoh/client-react
-  newTag: 1.0.0-48-gcfa5c84
+  newTag: 1.0.0-51-g7cdbe91
 patches:
 - path: patches/cnpg-cluster-patch.yaml
 - path: patches/migrator-patch.yaml
