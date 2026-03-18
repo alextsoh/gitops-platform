@@ -88,6 +88,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: alextsoh/${{ matrix.name }}:${{ needs.generate-image-tag.outputs.image_tag }}
 
+
   update-manifests:
     needs: [detect-changes, generate-image-tag, build-and-push]
     runs-on: ubuntu-latest
@@ -101,17 +102,26 @@ jobs:
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2
-
+        
+        # Update tags to dev and prod kustomize overlays after merge
       - name: Update Image Tags
         run: |
-          cd App/k8s/kustomize/dev
-          
           TAG=${{ needs.generate-image-tag.outputs.image_tag }}
+        
+          cd App/k8s/kustomize/dev 
           
           if [ "${{ needs.detect-changes.outputs.api-node }}" == "true" ]; then
             kustomize edit set image api-node-placeholder=alextsoh/api-node:$TAG
           fi
-          
+          if [ "${{ needs.detect-changes.outputs.client-react }}" == "true" ]; then
+            kustomize edit set image client-react-placeholder=alextsoh/client-react:$TAG
+          fi
+
+          cd ../prod
+
+          if [ "${{ needs.detect-changes.outputs.api-node }}" == "true" ]; then
+            kustomize edit set image api-node-placeholder=alextsoh/api-node:$TAG
+          fi
           if [ "${{ needs.detect-changes.outputs.client-react }}" == "true" ]; then
             kustomize edit set image client-react-placeholder=alextsoh/client-react:$TAG
           fi
