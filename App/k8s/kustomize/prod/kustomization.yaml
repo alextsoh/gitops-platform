@@ -1,28 +1,3 @@
-<<<<<<< HEAD
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-- ../base
-- gateway.yaml
-- httproute.yaml
-namePrefix: prod-
-labels:
-- pairs:
-    environment: prod
-images:
-- name: api-node-placeholder
-  newName: alextsoh/api-node
-  newTag: 1.0.0-53-g00e7b56
-- name: client-react-placeholder
-  newName: alextsoh/client-react
-  newTag: 1.0.0-53-g00e7b56
-patches:
-- path: patches/cnpg-cluster-patch.yaml
-- path: patches/migrator-patch.yaml
-- path: patches/api-node-patch.yaml
-- path: patches/api-node-secret-patch.yaml
-- path: patches/client-react-patch.yaml
-=======
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -53,4 +28,3 @@ patches:
 - path: patches/api-node-patch.yaml
 - path: patches/api-node-secret-patch.yaml
 - path: patches/client-react-patch.yaml
->>>>>>> f855407 (fix nginx)
