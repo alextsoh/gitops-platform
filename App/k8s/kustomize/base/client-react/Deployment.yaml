@@ -47,7 +47,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       volumes:
-        - configMap:
-            defaultMode: 420
+        - name: nginx-conf-vol
+          configMap:
+            # Kustomize uses this name to find the generator and rename it
             name: nginx-conf
-          name: nginx-conf
