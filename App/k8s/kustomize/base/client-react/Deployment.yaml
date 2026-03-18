@@ -51,4 +51,3 @@ spec:
           configMap:
             # Kustomize uses this name to find the generator and rename it
             name: nginx-conf
-            defaultMode: 420

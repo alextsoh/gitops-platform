@@ -7,11 +7,9 @@ resources:
 
 namePrefix: dev-
 
-generatorOptions:
-  disableNameSuffixHash: true
-
 configMapGenerator:
 - name: nginx-conf
+  namespace: my-app
   files:
     - default.conf=nginx.conf
 

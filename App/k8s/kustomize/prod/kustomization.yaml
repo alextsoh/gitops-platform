@@ -7,11 +7,9 @@ resources:
 
 namePrefix: prod-
 
-generatorOptions:
-  disableNameSuffixHash: true
-
 configMapGenerator:
 - name: nginx-conf
+  namespace: my-app
   files:
     - default.conf=nginx.conf
 
@@ -31,3 +29,5 @@ patches:
 - path: patches/api-node-patch.yaml
 - path: patches/api-node-secret-patch.yaml
 - path: patches/client-react-patch.yaml
+
+
