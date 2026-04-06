@@ -7,5 +7,6 @@ metadata:
     kustomize.config.k8s.io/behavior: merge
     argocd.argoproj.io/sync-wave: "-1"
 spec:
+  instances: 1
   superuserSecret:
     name: dev-pg-superuser-auth
