@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: my-app
 resources:
   - Deployment.yaml
-  - Secret.yaml
   - Service.yaml
   - service-account.yaml
   - secret-provider-class.yaml
