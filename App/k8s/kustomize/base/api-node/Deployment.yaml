@@ -55,4 +55,4 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "my-app-secrets"
+              secretProviderClass: "prod-my-app-secrets"
