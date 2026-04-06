@@ -5,6 +5,7 @@ resources:
 - gateway.yaml
 - httproute.yaml
 - secret-provider-class.yaml
+- migrator-job.yaml
 
 namePrefix: prod-
 
