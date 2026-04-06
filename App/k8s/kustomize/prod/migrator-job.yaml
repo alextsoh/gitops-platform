@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: db-migrate
-  namespace: my-app
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 spec:

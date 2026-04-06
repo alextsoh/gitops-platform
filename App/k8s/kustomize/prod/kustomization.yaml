@@ -5,7 +5,6 @@ resources:
 - gateway.yaml
 - httproute.yaml
 - secret-provider-class.yaml
-- migrator-job.yaml
 
 namePrefix: prod-
 
@@ -27,6 +26,7 @@ images:
   newTag: 1.0.0-51-g7cdbe91
 patches:
 - path: patches/cnpg-cluster-patch.yaml
+- path: patches/migrator-patch.yaml
 - path: patches/api-node-patch.yaml
 - path: patches/client-react-patch.yaml
 
