@@ -4,7 +4,7 @@ resources:
 - ../base
 - gateway.yaml
 - httproute.yaml
-- patches/secret-provider-class.yaml
+- secret-provider-class.yaml
 
 namePrefix: prod-
 
