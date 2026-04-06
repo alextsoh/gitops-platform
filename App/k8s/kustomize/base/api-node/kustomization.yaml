@@ -6,3 +6,4 @@ resources:
   - Secret.yaml
   - Service.yaml
   - service-account.yaml
+  - secret-provider-class.yaml
