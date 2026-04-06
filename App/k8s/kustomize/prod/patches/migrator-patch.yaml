@@ -1,12 +1,12 @@
-# apiVersion: batch/v1
-# kind: Job
-# metadata:
-#   name: db-migrate
-# spec:
-#   template:
-#     spec:
-#       containers:
-#         - name: migrator
-#           env:
-#             - name: DATABASE_URL
-#               value: "postgres://postgres:safepassword@prod-cnpg-db-rw.postgres.svc.cluster.local:5432/postgres?sslmode=disable"
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migrate
+spec:
+  template:
+    spec:
+      containers:
+        - name: migrator
+          env:
+            - name: DATABASE_URL
+              value: "postgres://postgres:safepassword@prod-cnpg-db-rw.postgres.svc.cluster.local:5432/postgres?sslmode=disable"
