@@ -7,9 +7,24 @@ metadata:
 spec:
   ttlSecondsAfterFinished: 3600 # Deletes 1 hour after finishing
   template:
+    metadata:
+      labels:
+        azure.workload.identity/use: "true"
     spec:
+      serviceAccountName: workload-identity-sa
       containers:
         - name: migrator
           env:
-            - name: DATABASE_URL
-              value: "postgres://postgres:safepassword@prod-cnpg-db-rw.postgres.svc.cluster.local:5432/postgres?sslmode=disable"
+            - name: DATABASE_URL_FILE
+              value: "/mnt/secrets/DB-URL-PROD"
+          volumeMounts:
+            - name: secrets-store
+              mountPath: "/mnt/secrets"
+              readOnly: true
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "prod-my-app-secrets"
