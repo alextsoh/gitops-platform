@@ -11,8 +11,16 @@ spec:
       - name: migrator
         image: alextsoh/db-migrator:multiplatform
         imagePullPolicy: Always
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret  # Dev uses this local secret
+              key: url
         args:
           - -path=/app/migrations
           - -database=$(DATABASE_URL)
           - up
       restartPolicy: OnFailure
+
+    #changed 1
