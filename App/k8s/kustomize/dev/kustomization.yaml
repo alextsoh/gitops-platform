@@ -29,5 +29,4 @@ patches:
 - path: patches/cnpg-cluster-patch.yaml
 - path: patches/migrator-patch.yaml
 - path: patches/api-node-patch.yaml
-- path: patches/api-node-secret-patch.yaml
 - path: patches/client-react-patch.yaml
