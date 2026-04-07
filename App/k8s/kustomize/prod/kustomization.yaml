@@ -4,10 +4,10 @@ resources:
 - ../base
 - gateway.yaml
 - httproute.yaml
-- secret-provider-class.yaml
+- secret-provider-class-api.yaml
 - secret-provider-class-postgres.yaml
 - postgres-secret-sync.yaml
-- service-account.yaml
+- service-account-api.yaml
 
 namePrefix: prod-
 
