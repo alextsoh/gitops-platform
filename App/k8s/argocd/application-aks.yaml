@@ -11,7 +11,6 @@ spec:
     path: App/k8s/kustomize/prod
   destination:
     server: https://kubernetes.default.svc
-    namespace: my-app
   syncPolicy:
     automated:
       prune: true
