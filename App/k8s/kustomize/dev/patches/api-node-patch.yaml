@@ -16,7 +16,7 @@ spec:
       - name: api-node
         env:
         - name: DATABASE_URL
-          value: "postgres://postgres:safepassword@dev-cnpg-db-rw.dev-postgres.svc.cluster.local:5432/postgres?sslmode=disable"
+          value: "postgres://postgres:safepassword@dev-cnpg-db-rw.postgres.svc.cluster.local:5432/postgres?sslmode=disable"
         resources:
           requests:
             memory: "128Mi"
