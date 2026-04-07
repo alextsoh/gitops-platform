@@ -4,4 +4,3 @@ namespace: my-app
 resources:
   - Deployment.yaml
   - Service.yaml
-  - service-account.yaml

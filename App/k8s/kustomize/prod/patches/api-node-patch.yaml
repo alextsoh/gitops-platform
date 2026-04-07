@@ -11,9 +11,16 @@ spec:
       app: api-node
   replicas: 1
   template:
+    metadata:
+      labels:
+        azure.workload.identity/use: "true"
     spec:
+      serviceAccountName: prod-workload-identity-sa
       containers:
       - name: api-node
+        env:
+        - name: DATABASE_URL_FILE
+          value: "/mnt/secrets/DB-URL-PROD"
         resources:
           requests:
             memory: "128Mi"
@@ -21,3 +28,14 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "200m"
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/mnt/secrets"
+          readOnly: true
+      volumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "prod-my-app-secrets"

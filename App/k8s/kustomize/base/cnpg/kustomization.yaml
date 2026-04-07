@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: postgres
 resources:
   - postgres-cluster.yaml
-  - secret.yaml

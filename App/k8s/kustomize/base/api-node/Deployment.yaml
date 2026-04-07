@@ -16,9 +16,7 @@ spec:
     metadata:
       labels:
         app: api-node
-        azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: workload-identity-sa
       containers:
         - name: api-node
           image: api-node-placeholder
@@ -26,12 +24,6 @@ spec:
           env:
             - name: PORT
               value: "3000"
-            - name: DATABASE_URL_FILE
-              value: "/mnt/secrets/DB-URL-PROD"
-          volumeMounts:
-            - name: secrets-store-inline
-              mountPath: "/mnt/secrets"
-              readOnly: true
           ports:
             - containerPort: 3000
               protocol: TCP
@@ -51,10 +43,3 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-      volumes:
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "prod-my-app-secrets"

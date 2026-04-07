@@ -4,6 +4,7 @@ resources:
 - ../base
 - gateway.yaml
 - httproute.yaml
+- secret-pg.yaml
 
 namePrefix: dev-
 
