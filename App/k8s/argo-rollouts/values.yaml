@@ -1,0 +1,9 @@
+# Argo Rollouts Helm Chart Values
+
+# Install CRDs
+installCRDs: true
+
+controller:
+  trafficRouterPlugins:
+    - name: "argoproj-labs/gatewayAPI"
+      location: "https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-gatewayapi/releases/latest/download/gatewayapi-plugin-linux-amd64"

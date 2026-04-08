@@ -30,3 +30,7 @@ spec:
       backendRefs:
         - name: prod-client-react-nginx
           port: 8080
+          weight: 1
+        - name: prod-client-react-nginx-canary
+          port: 8080
+          weight: 0
