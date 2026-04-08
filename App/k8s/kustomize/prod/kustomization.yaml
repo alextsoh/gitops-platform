@@ -11,18 +11,14 @@ resources:
 - service-account-api.yaml
 - Rollout.client-react.yaml
 - Service.client-react-nginx-canary.yaml
-
-
 namePrefix: prod-
-
 configMapGenerator:
-- name: nginx-conf
+- files:
+  - default.conf=nginx.conf
+  name: nginx-conf
   namespace: my-app
   options:
-    disableNameSuffixHash: true #disable hash for rollout 
-  files:
-    - default.conf=nginx.conf
-
+    disableNameSuffixHash: true
 labels:
 - pairs:
     environment: prod
@@ -32,13 +28,10 @@ images:
   newTag: 1.0.0-51-g7cdbe91
 - name: client-react-placeholder
   newName: alextsoh/client-react
-  newTag: 1.0.0-51-g7cdbe91
-  
+  newTag: 1.0.0-119-gc1f5d5c
 patches:
 - path: patches/cnpg-cluster-patch.yaml
 - path: patches/migrator-patch.yaml
 - path: patches/api-node-patch.yaml
 - path: patches/client-react-patch.yaml
 - path: patches/client-react-deployment-disable.yaml
-
-
