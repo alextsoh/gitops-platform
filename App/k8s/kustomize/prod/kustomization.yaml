@@ -28,7 +28,7 @@ images:
   newTag: 1.0.0-51-g7cdbe91
 - name: client-react-placeholder
   newName: alextsoh/client-react
-  newTag: 1.0.0-119-gc1f5d5c
+  newTag: 1.0.0-121-gdf6d0ac
 patches:
 - path: patches/cnpg-cluster-patch.yaml
 - path: patches/migrator-patch.yaml
