@@ -18,6 +18,8 @@ namePrefix: prod-
 configMapGenerator:
 - name: nginx-conf
   namespace: my-app
+  options:
+    disableNameSuffixHash: true #disable hash for rollout 
   files:
     - default.conf=nginx.conf
 
