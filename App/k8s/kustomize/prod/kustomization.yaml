@@ -9,6 +9,8 @@ resources:
 - postgres-secret-sync.yaml
 - service-account-postgres.yaml
 - service-account-api.yaml
+- Rollout.client-react.yaml
+- Service.client-react-nginx-canary.yaml
 
 
 namePrefix: prod-
@@ -35,5 +37,6 @@ patches:
 - path: patches/migrator-patch.yaml
 - path: patches/api-node-patch.yaml
 - path: patches/client-react-patch.yaml
+- path: patches/client-react-deployment-disable.yaml
 
 
