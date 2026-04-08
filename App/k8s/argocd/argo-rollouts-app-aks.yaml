@@ -18,6 +18,14 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: argo-rollouts
+  ignoreDifferences:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      managedFieldsManagers:
+        - helm-controller
+        - kube-controller-manager
+      jsonPointers:
+        - /spec/preserveUnknownFields
   syncPolicy:
     automated:
       prune: true
@@ -25,3 +33,4 @@ spec:
     syncOptions:
     - CreateNamespace=true
     - ServerSideApply=true
+    - RespectIgnoreDifferences=true
