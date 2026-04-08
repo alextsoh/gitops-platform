@@ -58,5 +58,5 @@ spec:
             httpRoute: prod-app-route
             namespace: my-app
       steps:
-        - setWeight: 20
+        - setWeight: 50
         - pause: {}
