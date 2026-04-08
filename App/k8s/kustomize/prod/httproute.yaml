@@ -29,6 +29,8 @@ spec:
             value: /
       backendRefs:
         - name: prod-client-react-nginx
+          kind: Service
           port: 8080
         - name: prod-client-react-nginx-canary
+          kind: Service
           port: 8080

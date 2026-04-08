@@ -52,9 +52,6 @@ spec:
     canary:
       stableService: prod-client-react-nginx
       canaryService: prod-client-react-nginx-canary
-      stickySession:
-        cookieName: X-Canary
-        maxAge: "1h"
       trafficRouting:
         plugins:
           argoproj-labs/gatewayAPI:
