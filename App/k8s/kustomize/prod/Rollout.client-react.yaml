@@ -47,7 +47,7 @@ spec:
       volumes:
         - name: nginx-conf-vol
           configMap:
-            name: nginx-conf
+            name: prod-nginx-conf
   strategy:
     canary:
       stableService: prod-client-react-nginx
