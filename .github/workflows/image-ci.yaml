@@ -38,25 +38,28 @@ jobs:
           fetch-depth: 0
       - name: Generate Image Tag
         id: generate-image-tag
-        run : |
+        run: |
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "image_tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            # Use the ref_name for tags
+            FINAL_TAG="${{ github.ref_name }}"
             echo "is_prod=true" >> $GITHUB_OUTPUT
           else
-            LONG_TAG=$(git describe --tags --always --long --first-parent --match "[0-9]*.[0-9]*.[0-9]*")
-            echo "image_tag=$LONG_TAG" >> $GITHUB_OUTPUT
+            # Use git describe for normal pushes
+            # Note: Added the * wildcard to match tags starting with 'v' or numbers
+            FINAL_TAG=$(git describe --tags --always --long --first-parent --match "*[0-9]*.[0-9]*.[0-9]*")
             echo "is_prod=false" >> $GITHUB_OUTPUT
           fi
 
-          echo "image_tag=$TAG" >> $GITHUB_OUTPUT
+          # Now FINAL_TAG has the value, so we send it to the output
+          echo "image_tag=$FINAL_TAG" >> $GITHUB_OUTPUT
           
-          # Export to the step variable for the "Show" step below
-          echo "CURRENT_TAG=$TAG" >> $GITHUB_ENV
+          # This helps the Show step if you want to use env, but steps.outputs is better
+          echo "CURRENT_TAG=$FINAL_TAG" >> $GITHUB_ENV
 
       - name: Show Image Tag
         run: |
           echo "Generated image tag: ${{ steps.generate-image-tag.outputs.image_tag }}"
-          echo "###  Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "### Build Summary" >> $GITHUB_STEP_SUMMARY
           echo "* **Image Tag:** \`${{ steps.generate-image-tag.outputs.image_tag }}\`" >> $GITHUB_STEP_SUMMARY
 
 
