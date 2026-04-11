@@ -49,20 +49,10 @@ jobs:
             FINAL_TAG=$(git describe --tags --always --long --first-parent --match "*[0-9]*.[0-9]*.[0-9]*")
             echo "is_prod=false" >> $GITHUB_OUTPUT
           fi
-
-          # Now FINAL_TAG has the value, so we send it to the output
           echo "image_tag=$FINAL_TAG" >> $GITHUB_OUTPUT
-          
-          # This helps the Show step if you want to use env, but steps.outputs is better
-          echo "CURRENT_TAG=$FINAL_TAG" >> $GITHUB_ENV
-
       - name: Show Image Tag
         run: |
           echo "Generated image tag: ${{ steps.generate-image-tag.outputs.image_tag }}"
-          echo "### Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo "* **Image Tag:** \`${{ steps.generate-image-tag.outputs.image_tag }}\`" >> $GITHUB_STEP_SUMMARY
-
-
 
   build-and-push:
     needs: [detect-changes, generate-image-tag]
