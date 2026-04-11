@@ -50,8 +50,8 @@ spec:
             name: nginx-conf
   strategy:
    blueGreen:
-    activeService: client-react-nginx-active
-    previewService: client-react-nginx-preview
+    activeService: prod-client-react-nginx-active
+    previewService: prod-client-react-nginx-preview
     autoPromotionEnabled: false
 
     
