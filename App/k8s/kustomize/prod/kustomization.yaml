@@ -11,46 +11,36 @@ resources:
 - service-account-api.yaml
 - Rollout.client-react.yaml
 - Service-client-react-nginx-bluegreen.yaml
-
 namePrefix: prod-
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
-- name: nginx-conf
+- files:
+  - default.conf=nginx.conf
+  name: nginx-conf
   namespace: my-app
-  files:
-    - default.conf=nginx.conf
-
 labels:
 - pairs:
     environment: prod
 images:
 - name: api-node-placeholder
   newName: alextsoh/api-node
-  newTag: 1.0.0-51-g7cdbe91
+  newTag: 1.0.4
 - name: client-react-placeholder
   newName: alextsoh/client-react
-  newTag: 1.0.0-125-g5aca0aa
-  
-
-
-patches:
+  newTag: 1.0.4
 #Remove the Deployment from base, 
 #as it will be managed by the Rollout with blue-green strategy
-
-  - target:
-      kind: Deployment
+patches:
+- patch: |-
+    $patch: delete
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
       name: client-react-nginx
-    patch: |-
-      $patch: delete
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: client-react-nginx
-
-  - path: patches/cnpg-cluster-patch.yaml
-  - path: patches/migrator-patch.yaml
-  - path: patches/api-node-patch.yaml
-
-
-
+  target:
+    kind: Deployment
+    name: client-react-nginx
+- path: patches/cnpg-cluster-patch.yaml
+- path: patches/migrator-patch.yaml
+- path: patches/api-node-patch.yaml

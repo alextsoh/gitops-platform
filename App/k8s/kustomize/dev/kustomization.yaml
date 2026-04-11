@@ -9,10 +9,10 @@ resources:
 namePrefix: dev-
 
 configMapGenerator:
-- name: nginx-conf
+- files:
+  - default.conf=nginx.conf
+  name: nginx-conf
   namespace: my-app
-  files:
-    - default.conf=nginx.conf
 
 labels:
 - pairs:
@@ -21,10 +21,10 @@ labels:
 images:
 - name: api-node-placeholder
   newName: alextsoh/api-node
-  newTag: 1.0.0-53-g00e7b56
+  newTag: 1.0.4
 - name: client-react-placeholder
   newName: alextsoh/client-react
-  newTag: 1.0.0-53-g00e7b56
+  newTag: 1.0.4
 patches:
 - path: patches/cnpg-cluster-patch.yaml
 - path: patches/migrator-patch.yaml
