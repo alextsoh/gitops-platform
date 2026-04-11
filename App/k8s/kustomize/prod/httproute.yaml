@@ -21,13 +21,15 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: prod-api-node
+        - kind: Service
+          name: prod-api-node
           port: 3000
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: prod-client-react-nginx-active
+        - kind: Service
+          name: prod-client-react-nginx-active
           port: 8080
   
