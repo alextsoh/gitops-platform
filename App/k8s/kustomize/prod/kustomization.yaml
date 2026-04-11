@@ -35,15 +35,7 @@ images:
 
 
 patches:
-  - target:
-      kind: Deployment
-      name: client-react-nginx
-    patch: |-
-      $patch: delete
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: client-react-nginx
+  
 
   - path: patches/cnpg-cluster-patch.yaml
   - path: patches/migrator-patch.yaml
