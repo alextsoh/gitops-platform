@@ -10,7 +10,7 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: react-nginx
+    app: client-react-nginx
 ---
 
 apiVersion: v1
@@ -25,4 +25,4 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: react-nginx
+    app: client-react-nginx
