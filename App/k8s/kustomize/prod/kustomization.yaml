@@ -32,11 +32,22 @@ images:
   newName: alextsoh/client-react
   newTag: 1.0.0-125-g5aca0aa
   
+
+
 patches:
-- path: patches/cnpg-cluster-patch.yaml
-- path: patches/migrator-patch.yaml
-- path: patches/api-node-patch.yaml
-- path: patches/client-react-patch.yaml
-- path: patches/client-react-deployment-disable.yaml
+  - target:
+      kind: Deployment
+      name: client-react-nginx
+    patch: |-
+      $patch: delete
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: client-react-nginx
+
+  - path: patches/cnpg-cluster-patch.yaml
+  - path: patches/migrator-patch.yaml
+  - path: patches/api-node-patch.yaml
+  - path: patches/client-react-patch.yaml
 
 
