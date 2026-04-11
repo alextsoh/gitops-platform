@@ -13,7 +13,8 @@ resources:
 - Service-client-react-nginx-bluegreen.yaml
 
 namePrefix: prod-
-
+generatorOptions:
+  disableNameSuffixHash: true
 configMapGenerator:
 - name: nginx-conf
   namespace: my-app
