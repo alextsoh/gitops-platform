@@ -16,7 +16,7 @@ namePrefix: prod-
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
-- name: prod-nginx-conf
+- name: nginx-conf
   namespace: my-app
   files:
     - default.conf=nginx.conf
