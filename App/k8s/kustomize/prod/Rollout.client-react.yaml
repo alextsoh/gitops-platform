@@ -49,20 +49,9 @@ spec:
           configMap:
             name: nginx-conf
   strategy:
-    canary:
-      stableService: prod-client-react-nginx
-      canaryService: prod-client-react-nginx-canary
-      trafficRouting:
-        plugins:
-          argoproj-labs/gatewayAPI:
-            httpRoute: prod-app-route
-            namespace: my-app
-      steps:
-        - setWeight: 20
-        - pause: {}
-        - setWeight: 50
-        - pause:
-            duration: 30s
-        - setWeight: 80
-        - pause:
-            duration: 30s
+   blueGreen:
+    activeService: client-react-nginx-active
+    previewService: client-react-nginx-preview
+    autoPromotionEnabled: false
+
+    

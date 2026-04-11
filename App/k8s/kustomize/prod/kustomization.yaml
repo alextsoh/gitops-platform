@@ -10,7 +10,7 @@ resources:
 - service-account-postgres.yaml
 - service-account-api.yaml
 - Rollout.client-react.yaml
-- Service.client-react-nginx-canary.yaml
+- Service.client-react-nginx-bluegreen.yaml
 
 namePrefix: prod-
 
