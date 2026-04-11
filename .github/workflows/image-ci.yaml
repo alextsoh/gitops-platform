@@ -131,4 +131,4 @@ jobs:
         with:
           base: main
           token: ${{ secrets.CI_PAT_PR }}
-          title: "Update image tags to"
+          title: "Update image tags to ${{ needs.generate-image-tag.outputs.image_tag }}"
