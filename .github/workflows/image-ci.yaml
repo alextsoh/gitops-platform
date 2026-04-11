@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths: ['App/api-node/**','App/client-react/**']
+    tags: ['v[0-9]*.[0-9]*.[0-9]*']
   workflow_dispatch:
 
 jobs:
@@ -11,10 +12,11 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      # This mapping tells the next jobs which services to run
-      api-node: ${{ steps.filter.outputs.api-node }}
-      client-react: ${{ steps.filter.outputs.client-react }}
-      postgresql: ${{ steps.filter.outputs.postgresql }}
+      # Build if code changed OR if we are pushing a Tag
+      api-node: ${{ steps.filter.outputs.api-node == 'true' || startsWith(github.ref, 'refs/tags/') }}
+      client-react: ${{ steps.filter.outputs.client-react == 'true' || startsWith(github.ref, 'refs/tags/') }}
+      # Identify if this is a "Production Release" via Tag
+      is_prod: ${{ startsWith(github.ref, 'refs/tags/') }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -23,7 +25,6 @@ jobs:
           filters: |
             api-node: 'App/api-node/**'
             client-react: 'App/client-react/**'
-            postgresql: 'App/postgresql/**'
   
   generate-image-tag:
     needs: detect-changes
@@ -37,11 +38,16 @@ jobs:
           fetch-depth: 0
       - name: Generate Image Tag
         id: generate-image-tag
-        run: echo "image_tag=$(git describe --tags --always --first-parent --match "[0-9]*.[0-9]*.[0-9]*")" >> $GITHUB_OUTPUT
-      - name: Show Image Tag
-        run: |
-          echo "Generated image tag: ${{ steps.generate-image-tag.outputs.image_tag }}"
-          echo "image_tag=${{ steps.generate-image-tag.outputs.image_tag }}" >> $GITHUB_STEP_SUMMARY
+        run : |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "image_tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "is_prod=true" >> $GITHUB_OUTPUT
+          else
+            LONG_TAG=$(git describe --tags --always --long --first-parent --match "v[0-9]*.[0-9]*.[0-9]*")
+            echo "image_tag=$LONG_TAG" >> $GITHUB_OUTPUT
+            echo "is_prod=false" >> $GITHUB_OUTPUT
+          fi
+
 
 
   build-and-push:
@@ -84,7 +90,7 @@ jobs:
           context: ${{ matrix.path }}
           file: ${{ matrix.path }}/${{ matrix.dockerfile }}
           push: true
-          # This uses the tag you generated in the previous job
+          # This uses the tag generated in the previous job
           platforms: linux/amd64,linux/arm64
           tags: alextsoh/${{ matrix.name }}:${{ needs.generate-image-tag.outputs.image_tag }}
 
@@ -107,9 +113,9 @@ jobs:
       - name: Update Image Tags
         run: |
           TAG=${{ needs.generate-image-tag.outputs.image_tag }}
+          IS_PROD=${{ needs.detect-changes.outputs.is_prod }}
         
           cd App/k8s/kustomize/dev 
-          
           if [ "${{ needs.detect-changes.outputs.api-node }}" == "true" ]; then
             kustomize edit set image api-node-placeholder=alextsoh/api-node:$TAG
           fi
@@ -117,13 +123,15 @@ jobs:
             kustomize edit set image client-react-placeholder=alextsoh/client-react:$TAG
           fi
 
-          cd ../prod
+          if [ "$IS_PROD" == "true" ]; then
 
-          if [ "${{ needs.detect-changes.outputs.api-node }}" == "true" ]; then
-            kustomize edit set image api-node-placeholder=alextsoh/api-node:$TAG
-          fi
-          if [ "${{ needs.detect-changes.outputs.client-react }}" == "true" ]; then
-            kustomize edit set image client-react-placeholder=alextsoh/client-react:$TAG
+            cd ../prod
+            if [ "${{ needs.detect-changes.outputs.api-node }}" == "true" ]; then
+              kustomize edit set image api-node-placeholder=alextsoh/api-node:$TAG
+            fi
+            if [ "${{ needs.detect-changes.outputs.client-react }}" == "true" ]; then
+              kustomize edit set image client-react-placeholder=alextsoh/client-react:$TAG
+            fi
           fi
 
       - name: Create Pull Request
