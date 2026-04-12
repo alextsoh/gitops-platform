@@ -13,7 +13,7 @@ COPY . .
 
 RUN npm run build
 
-# Use separate stage for deployable image
+# Use separate stage for deployable image with non root, unprivileged user image
 FROM nginxinc/nginx-unprivileged:1.29-alpine-perl
 
 # Copy built assets from the build stage 1 to nginx's html directory
