@@ -1,6 +1,6 @@
 FROM node:25-slim AS base
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
