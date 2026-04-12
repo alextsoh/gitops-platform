@@ -11,8 +11,6 @@ This repository uses GitHub Actions workflows to automate testing, building, and
 
 Triggers on tag push `v*.*.*`. Runs `api-test` and `client-test` jobs in parallel — lint, tests, and build validation. Blocks `image-ci` via `workflow_run` on failure.
 
----
-
 ### 2. Build and Push (`build.yml`)
 
 Triggered by:
