@@ -41,7 +41,7 @@ Runs after a successful build. Uses Kustomize to patch image tags in the GitOps 
 Opens a pull request via `peter-evans/create-pull-request` targeting `main` with the updated manifests.
 
 ---
-<img src="assets/ci-flow.png" width="350"/>
+<img src="assets/ci-flow.png" width="340"/>
 
 ---
 ## Kubernetes & Kustomize Structure
@@ -121,7 +121,7 @@ After that, all deployments are driven by Git — merging a PR with updated imag
 ```bash
 kubectl apply -f App/k8s/argocd/application-aks.yaml
 ```
-<img src="assets/argocd.png" width="350"/>
+<img src="assets/argocd.png" width="400"/>
 
 ## ArgoCD Sync Waves
 
@@ -165,7 +165,7 @@ The active and preview services each have a label selector pointing to a specifi
 - `Rollout.client-react.yaml` — defines the blue/green strategy
 - `Service-client-react-nginx-bluegreen.yaml` — two services for independent traffic routing
 
-<img src="assets/rollout.png" width="350"/>
+<img src="assets/rollout.png" width="300"/>
 
 ---
 
