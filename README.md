@@ -55,6 +55,7 @@ The cluster configuration uses a **Kustomize overlay pattern**
 - **prod** — runs on **AKS**. Updated automatically on **tagged releases** only. Includes additional resources for **secrets management**, **blue/green deployments** via **Argo Rollouts**, and **external secret synchronization**.
 
 Both environments are managed by **ArgoCD** and use **Gateway API** with **Traefik** for traffic routing.
+```text
 .
 ├── base
 │   ├── api-node
@@ -105,7 +106,7 @@ Both environments are managed by **ArgoCD** and use **Gateway API** with **Traef
     ├── secret-provider-class-postgres.yaml
     ├── service-account-api.yaml
     └── service-account-postgres.yaml
-
+'''
 Database Migration Secret Management:
 
 The db-migrator Job in production retrieves the database connection URL directly from Azure Key Vault via the Secrets Store CSI Driver. The CSI volume mounts the secret from Key Vault into the pod using Azure Workload Identity for authentication, and simultaneously syncs it to a Kubernetes secret (`my-app-secrets-sync`), from which the `DATABASE_URL` environment variable is sourced. The `secretProviderClass` reference in the migrator patch was updated to use the kustomize-prefixed name (`prod-my-app-secrets`) to match the rendered resource name in the prod overlay.
