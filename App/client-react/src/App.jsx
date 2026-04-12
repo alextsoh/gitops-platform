@@ -25,7 +25,7 @@ function CurrentTime(props) {
 
   return (
     <div className="App">
-      <p>APItestpipe4 : {data.api}</p>
+      <p>APItestpipe5 : {data.api}</p>
       <p>Time from DB : {data.currentTime}</p>
       <p>Request Count: {data.requestCount}</p>
       <div>{isFetching ? "Updating..." : ""}</div>

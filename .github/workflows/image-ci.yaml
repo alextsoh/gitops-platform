@@ -95,9 +95,10 @@ jobs:
           file: ${{ matrix.path }}/${{ matrix.dockerfile }}
           push: true
           # This uses the tag generated in the previous job
-          platforms: linux/amd64,linux/arm64
           tags: alextsoh/${{ matrix.name }}:${{ needs.generate-image-tag.outputs.image_tag }}
-
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   update-manifests:
     needs: [detect-changes, generate-image-tag, build-and-push]
