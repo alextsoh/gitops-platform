@@ -169,7 +169,7 @@ The active and preview services each have a label selector pointing to a specifi
 
 ---
 
-## Production Secret Management
+## Secret Management
 
 The production environment retrieves secrets from **Azure Key Vault** via the **Secrets Store CSI Driver**, authenticated using **Azure Workload Identity**. Each service has a dedicated `ServiceAccount` with the Workload Identity annotation and a `SecretProviderClass` defining which Key Vault secrets to fetch.
 
