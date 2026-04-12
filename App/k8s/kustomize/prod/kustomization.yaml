@@ -25,10 +25,10 @@ labels:
 images:
 - name: api-node-placeholder
   newName: alextsoh/api-node
-  newTag: 1.0.4
+  newTag: 1.0.6
 - name: client-react-placeholder
   newName: alextsoh/client-react
-  newTag: 1.0.4
+  newTag: 1.0.6
 #Remove the Deployment from base, 
 #as it will be managed by the Rollout with blue-green strategy
 patches:
