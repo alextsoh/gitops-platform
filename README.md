@@ -119,7 +119,7 @@ Apply the ArgoCD applications manually once to bootstrap the cluster:
 
 After that, all deployments are driven by Git — merging a PR with updated image tags is enough to trigger a sync and roll out a new version.
 ```bash
-kubectl apply f App/k8s/argocd/application-aks.yaml
+kubectl apply -f App/k8s/argocd/application-aks.yaml
 ```
 <img src="assets/argocd.png" width="350"/>
 
