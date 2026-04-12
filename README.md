@@ -1,4 +1,3 @@
-# GITOPS-PLATFORM
 ## Overview
 
 This repository uses GitHub Actions workflows to automate testing, building, and deploying container images via Kustomize overlays and spin up a AKS cluster via terraform.
