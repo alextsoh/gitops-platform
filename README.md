@@ -44,7 +44,7 @@ Runs after a successful build. Uses Kustomize to patch image tags in the GitOps 
 Opens a pull request via `peter-evans/create-pull-request` targeting `main` with the updated manifests.
 
 ---
-![alt text](image.png)
+<img src="image.png" width="600"/>
 
 Database Migration Secret Management:
 
