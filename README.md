@@ -44,7 +44,7 @@ Runs after a successful build. Uses Kustomize to patch image tags in the GitOps 
 Opens a pull request via `peter-evans/create-pull-request` targeting `main` with the updated manifests.
 
 ---
-<img src="ci-flow.png" width="400"/>
+<img src="ci-flow.png" width="350"/>
 
 ---
 ## Kubernetes & Kustomize Structure
@@ -106,20 +106,63 @@ Both environments are managed by **ArgoCD** and use **Gateway API** with **Traef
     ├── secret-provider-class-postgres.yaml
     ├── service-account-api.yaml
     └── service-account-postgres.yaml
-'''
-Database Migration Secret Management:
+```
 
-The db-migrator Job in production retrieves the database connection URL directly from Azure Key Vault via the Secrets Store CSI Driver. The CSI volume mounts the secret from Key Vault into the pod using Azure Workload Identity for authentication, and simultaneously syncs it to a Kubernetes secret (`my-app-secrets-sync`), from which the `DATABASE_URL` environment variable is sourced. The `secretProviderClass` reference in the migrator patch was updated to use the kustomize-prefixed name (`prod-my-app-secrets`) to match the rendered resource name in the prod overlay.
+## Production Secret Management
+
+The production environment retrieves secrets from **Azure Key Vault** via the **Secrets Store CSI Driver**, authenticated using **Azure Workload Identity**. Each service has a dedicated `ServiceAccount` with the Workload Identity annotation and a `SecretProviderClass` defining which Key Vault secrets to fetch.
+
+```
+Azure Key Vault
+       │
+       │  Workload Identity auth
+       ▼
+ServiceAccount ──► SecretProviderClass ──► CSI Driver ──► Pod volume mount
+                                               │
+                                               ▼
+                                       Kubernetes Secret
+                                               │
+                                               ▼
+                                       DATABASE_URL env var
+```
+
+### API — file mount
+
+The CSI driver writes the secret directly to `/mnt/secrets/database-password` inside the pod. The app reads it via `fs.readFileSync()` using the `DATABASE_URL_FILE` env var.
+```bash
+kubectl exec -n my-app prod-api-node-7cb8456fd9-xp7qt -- cat /mnt/secrets/DB-URL-PROD
+postgres://postgres:safepassword@prod-cnpg-db-rw.postgres.svc.cluster.local:5432/postgres?sslmode=disable
+```
+### db-migrator — Kubernetes Secret sync
+
+The CSI driver syncs the Key Vault value into a Kubernetes Secret (`my-app-secrets-sync`) via `secretObjects`. The pod reads it through `secretKeyRef` as `DATABASE_URL`.
+
+The `SecretProviderClass` is referenced in the migrator patch using the kustomize-prefixed name (`prod-my-app-secrets`) to match the rendered resource name in the prod overlay.
+
+A dummy **Job** (`postgres-secret-sync`) runs at **sync wave `-2`** to trigger the **Secrets Store CSI Driver** to fetch the PostgreSQL credentials from **Azure Key Vault** and sync them into a Kubernetes Secret before any cnpg pods start.
 
 ---
 
-Secret Delivery: File Mount and K8s Secret Sync:
+## Nginx Configuration Injection
 
-Both the API and migrator retrieve the database URL from Azure Key Vault via the Secrets Store CSI Driver, but they consume it differently.
+The Nginx config is injected at runtime via a **Kubernetes ConfigMap** and a **volume mount**, allowing environment-specific configs without rebuilding the image.
 
-The API uses a file mount — the CSI driver writes the secret directly to /mnt/secrets/database-password inside the pod. The app reads it with fs.readFileSync() via the DATABASE_URL_FILE env var. The value never touches etcd and is not accessible via kubectl get secret.
+1. The Kustomize overlay (`dev`/`prod`) uses `configMapGenerator` to create a ConfigMap from `nginx.conf`
+2. The `Deployment`/`Rollout` defines a volume sourcing from that ConfigMap
+3. The container mounts the config file into `/etc/nginx/conf.d/default.conf` at startup
 
-The migrator uses secretObjects — the CSI driver syncs the Key Vault value into a Kubernetes Secret (my-app-secrets-sync), which the pod then reads via secretKeyRef. This is simpler since the migrate CLI only accepts a connection string directly, but the K8s Secret persists in etcd after the Job completes and can be read by anyone with kubectl get secret RBAC access.
+```yaml
+volumes:
+  - name: nginx-config
+    configMap:
+      name: nginx-config
+containers:
+  - name: client-react
+    volumeMounts:
+      - name: nginx-config
+        mountPath: /etc/nginx/conf.d/default.conf
+        subPath: default.conf
+```
 
 ---
 ArgoCD Identity-Based Access:
