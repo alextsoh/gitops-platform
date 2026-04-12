@@ -22,5 +22,8 @@
     "@vitejs/plugin-react-swc": "^3.0.0",
     "eslint": "^9.39.2",
     "vite": "^7.2.6"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

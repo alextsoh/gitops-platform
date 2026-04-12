@@ -1,4 +1,4 @@
-name: image-ci
+name: Build and Push
 
 on:  
   push:
@@ -6,6 +6,9 @@ on:
     paths: ['App/api-node/**','App/client-react/**']
     tags: ['[0-9]*.[0-9]*.[0-9]*']
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Test"]
+    types: [completed]
 
 jobs:
   # STEP 1: Detect which folders actually changed
