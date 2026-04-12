@@ -123,6 +123,34 @@ kubectl apply -f App/k8s/argocd/application-aks.yaml
 ```
 <img src="assets/argocd.png" width="350"/>
 
+## ArgoCD Sync Waves
+
+Resources are deployed in order across two namespaces.
+
+**postgres namespace**
+
+```
+wave -4  SecretProviderClass       Key Vault secret references
+wave -3  ServiceAccount            Identity for Key Vault auth
+wave -2  Job (secret-sync)         Trigger CSI driver to sync secrets
+wave -1  CNPG Cluster              Database provisioning
+```
+
+**my-app namespace**
+
+```
+wave  0  Namespace                 Base namespace
+wave  0  ServiceAccount            App workload identity
+wave  0  ConfigMap                 Nginx config
+wave  0  Services                  Networking
+wave  0  SecretProviderClass       Key Vault secret references
+wave  0  Job (db-migrate)          Run migrations
+wave  1  Deployment (api-node)     API server
+wave  2  Rollout (client-react)    Frontend
+wave  3  Gateway                   Traffic routing
+wave  4  HTTPRoute                 Routing rules
+```
+
 ## ArgoCD Access & Identity
 
 ArgoCD uses **OIDC** with **Azure Workload Identity** for authentication — the `argocd-server` pod authenticates via a **Federated Credential** against the AKS OIDC issuer, no client secrets required. **Entra ID groups** are mapped to ArgoCD roles via `argocd-rbac-cm` for authorization.
