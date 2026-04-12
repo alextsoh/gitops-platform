@@ -1,4 +1,4 @@
-# CI/CD Pipeline
+# GITOPS-PLATFORM
 ## Overview
 
 This repository uses GitHub Actions workflows to automate testing, building, and deploying container images via Kustomize overlays and spin up a AKS cluster via terraform.
@@ -44,7 +44,7 @@ Runs after a successful build. Uses Kustomize to patch image tags in the GitOps 
 Opens a pull request via `peter-evans/create-pull-request` targeting `main` with the updated manifests.
 
 ---
-<img src="ci-flow.png" width="350"/>
+<img src="assets/ci-flow.png" width="350"/>
 
 ---
 ## Kubernetes & Kustomize Structure
@@ -107,6 +107,42 @@ Both environments are managed by **ArgoCD** and use **Gateway API** with **Traef
     ├── service-account-api.yaml
     └── service-account-postgres.yaml
 ```
+---
+
+## ArgoCD
+
+ArgoCD is the GitOps controller that syncs this repository to the cluster. It continuously watches the `main` branch and applies any drift between the desired state in Git and the actual state in the cluster.
+
+Two ArgoCD applications are defined:
+
+- `application-aks.yaml` — syncs the `prod` overlay to **AKS**
+- `application-local.yaml` — syncs the `dev` overlay to the local **Kind** cluster
+
+Apply the ArgoCD applications manually once to bootstrap the cluster:
+
+After that, all deployments are driven by Git — merging a PR with updated image tags is enough to trigger a sync and roll out a new version.
+```bash
+kubectl apply f App/k8s/argocd/application-aks.yaml
+```
+<img src="assets/argocd.png" width="350"/>
+
+## ArgoCD Access & Identity
+
+ArgoCD uses **OIDC** with **Azure Workload Identity** for authentication — the `argocd-server` pod authenticates via a **Federated Credential** against the AKS OIDC issuer, no client secrets required. **Entra ID groups** are mapped to ArgoCD roles via `argocd-rbac-cm` for authorization.
+
+## Blue/Green Deployment
+
+Production deploys `client-react` using **Argo Rollouts** with a **blue/green strategy**. Two identical environments run in parallel — **blue** (active, live traffic) and **green** (preview, no traffic).
+
+The active and preview services each have a label selector pointing to a specific **rollouts-pod-template-hash** — Argo Rollouts swaps live traffic by patching that selector to point to the new pods.
+
+**Key resources in `prod` overlay:**
+- `Rollout.client-react.yaml` — defines the blue/green strategy
+- `Service-client-react-nginx-bluegreen.yaml` — two services for independent traffic routing
+
+<img src="assets/rollout.png" width="350"/>
+
+---
 
 ## Production Secret Management
 
@@ -163,10 +199,3 @@ containers:
         mountPath: /etc/nginx/conf.d/default.conf
         subPath: default.conf
 ```
-
----
-ArgoCD Identity-Based Access:
-
-The ArgoCD authentication flow is initiated via OIDC through a kubectl port-forward tunnel at http://localhost:8080
-The argocd-server pod uses Azure Workload Identity. It projects a Kubernetes ServiceAccount token that is validated against the AKS OIDC Issuer URL via a Federated Credential trust relationship. 
-Authorization is handled by the argocd-rbac-cm, which maps Entra ID groups to internal ArgoCD roles for an identity-based permission model.
