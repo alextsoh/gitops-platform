@@ -21,7 +21,7 @@ labels:
 images:
 - name: api-node-placeholder
   newName: alextsoh/api-node
-  newTag: 1.0.6
+  newTag: 1.0.6-15-gbc15852
 - name: client-react-placeholder
   newName: alextsoh/client-react
   newTag: 1.0.6-10-gecf83c4
