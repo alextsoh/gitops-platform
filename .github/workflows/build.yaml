@@ -10,6 +10,9 @@ on:
     workflows: ["Test"]
     types: [completed]
 
+env:
+  DASHBOARD_URL: https://d3b17cb5c15c90.lhr.life #url for localhost reverse proxy for demo
+
 jobs:
   # STEP 1: Detect which folders actually changed
   detect-changes:
@@ -148,3 +151,4 @@ jobs:
           base: main
           token: ${{ secrets.CI_PAT_PR }}
           title: "Update image tags to ${{ needs.generate-image-tag.outputs.image_tag }}"
+
