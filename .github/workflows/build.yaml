@@ -63,6 +63,9 @@ jobs:
   build-and-push:
     needs: [detect-changes, generate-image-tag]
     runs-on: ubuntu-latest
+    permissions:                      # ← ADD FOR SECURE CHAIN APP
+      contents: read
+      id-token: write
     strategy:
       matrix:
         include:
@@ -94,6 +97,7 @@ jobs:
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 
       - name: Build and Push
+        id: build                     # ← ADD FOR SECURE CHAIN APP
         uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         if: matrix.should_run == 'true'
         with:
@@ -105,7 +109,16 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
+      
+      - name: Secure pipeline report          # ← ADD this whole step
+        if: matrix.should_run == 'true'
+        uses: alextsoh/secure-pipeline-action@290239de7acb3f24225184a1272b867ffc5a462b
+        with:
+          image: docker.io/alextsoh/${{ matrix.name }}@${{ steps.build.outputs.digest }}
+          component: ${{ matrix.name }}
+          tags: ${{ needs.generate-image-tag.outputs.image_tag }}
+          dashboard-url: ${{ env.DASHBOARD_URL }}
+          
   update-manifests:
     needs: [detect-changes, generate-image-tag, build-and-push]
     runs-on: ubuntu-latest
