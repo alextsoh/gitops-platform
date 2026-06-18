@@ -11,7 +11,7 @@ on:
     types: [completed]
 
 env:
-  DASHBOARD_URL: https://d3b17cb5c15c90.lhr.life #url for localhost reverse proxy for demo
+  DASHBOARD_URL: https://05c3a20d181147.lhr.life #url for localhost reverse proxy for demo
 
 jobs:
   # STEP 1: Detect which folders actually changed
@@ -118,7 +118,7 @@ jobs:
           component: ${{ matrix.name }}
           tags: ${{ needs.generate-image-tag.outputs.image_tag }}
           dashboard-url: ${{ env.DASHBOARD_URL }}
-          
+
   update-manifests:
     needs: [detect-changes, generate-image-tag, build-and-push]
     runs-on: ubuntu-latest
