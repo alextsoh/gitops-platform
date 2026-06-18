@@ -11,7 +11,7 @@ on:
     types: [completed]
 
 env:
-  DASHBOARD_URL: https://05c3a20d181147.lhr.life #url for localhost reverse proxy for demo
+  DASHBOARD_URL: https://004f985ae0100a.lhr.life #url for localhost reverse proxy for demo
 
 jobs:
   # STEP 1: Detect which folders actually changed
